@@ -125,5 +125,17 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
+# vscode
+.vscode
+
+# idle
+.idle
+
 # Pyre type checker
 .pyre/
+
+# Service
+settings.yaml
+
+# PyCharm
+.idea/
