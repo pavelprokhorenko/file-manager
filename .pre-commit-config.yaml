@@ -26,14 +26,14 @@ repos:
           - --remove-all-unused-imports
           - --remove-unused-variables
           - --exclude
-          - __init__.py,base.py
+          - __init__.py,base.py,app/db/base.py
           - --remove-duplicate-keys
   - repo: https://github.com/pycqa/isort
     rev: 5.10.1
     hooks:
       - id: isort
         args:
-          - --line-length=109
+          - --line-length=88
           - --profile
           - black
   - repo: https://github.com/psf/black
@@ -42,4 +42,4 @@ repos:
       - id: black
         args:
           - --preview
-          - --line-length=109
+          - --line-length=88
