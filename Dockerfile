@@ -1,17 +1,16 @@
 # Dockerfile
 
-FROM python:3.10-buster
+FROM python:3.10-bullseye
 
 # copy source and install dependencies
-RUN mkdir -p /opt/app
+ENV VIRTUAL_ENV=/venv
+RUN python3.10 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-COPY . /opt/app
-
-WORKDIR /opt/app
+COPY . .
 RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-RUN chown -R www-data:www-data /opt/app
+RUN pip install -r ./requirements.txt
 
 # start service
 STOPSIGNAL SIGTERM
-CMD ["bash", "start-server.sh"]
+CMD ["sh", "start-server.sh"]
