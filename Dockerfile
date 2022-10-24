@@ -8,6 +8,8 @@ RUN python3.10 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 COPY . .
+WORKDIR ./
+
 RUN pip install --upgrade pip
 RUN pip install -r ./requirements.txt
 
