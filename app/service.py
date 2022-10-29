@@ -48,8 +48,10 @@ class Service:
             )
         else:
             system(
-                f"uvicorn {path_to_app} --host {self.settings.service.host} --port"
-                f" {self.settings.service.port}"
+                f"uvicorn {path_to_app} --host"
+                f" {self.settings.service.host} --port"
+                f" {self.settings.service.port} --workers"
+                f" {self.settings.service.workers}"
             )
 
 
