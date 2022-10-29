@@ -26,6 +26,7 @@ class Service(BaseSettings):
 
     host: str
     port: int
+    workers: int
     debug: bool
     origins: list[str]
 
