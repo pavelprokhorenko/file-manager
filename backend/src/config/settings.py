@@ -33,9 +33,8 @@ class BackendSettings(BaseSettings):
     POSTGRES_USERNAME: str = config("POSTGRES_USERNAME", cast=str)
     POSTGRES_PASSWORD: str = config("POSTGRES_PASSWORD", cast=str)
 
-    IS_DB_ECHO_LOG: bool = config("IS_POSTGRES_ECHO_LOG", cast=bool)
-    IS_DB_FORCE_ROLLBACK: bool = config("IS_POSTGRES_SESSION_FORCE_ROLLBACK", cast=bool)
-    IS_DB_EXPIRE_ON_COMMIT: bool = config(
+    IS_POSTGRES_ECHO_LOG: bool = config("IS_POSTGRES_ECHO_LOG", cast=bool)
+    IS_POSTGRES_SESSION_EXPIRE_ON_COMMIT: bool = config(
         "IS_POSTGRES_SESSION_EXPIRE_ON_COMMIT", cast=bool
     )
 
@@ -43,3 +42,6 @@ class BackendSettings(BaseSettings):
         env_file = f"{ROOT_DIR}/.env"
         case_sensitive: bool = True
         validate_assignment: bool = True
+
+
+settings = BackendSettings()
