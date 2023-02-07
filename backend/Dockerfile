@@ -1,18 +1,25 @@
-# Dockerfile
+# Pull official latest Python Docker image
 
-FROM python:3.10-bullseye
+FROM python:3.11
 
-# copy source and install dependencies
-ENV VIRTUAL_ENV=/venv
-RUN python3.10 -m venv $VIRTUAL_ENV
+# Set the working directory
+WORKDIR /usr/backend
+
+# Set up Python behaviour
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV VIRTUAL_ENV=/opt/venv
+
+# Switch on virtual environment
+RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
+# Copy all backend files
 COPY . .
-WORKDIR ./
 
-RUN pip install --upgrade pip
-RUN pip install -r ./requirements.txt
+# Install Python dependencies
+RUN pip3 install --upgrade pip
+RUN pip3 install -r ./requirements.txt
 
-# start service
-STOPSIGNAL SIGTERM
-CMD ["sh", "start-server.sh"]
+# Execute entrypoint.sh
+CMD ["sh", "/usr/backend/entrypoint.sh"]
