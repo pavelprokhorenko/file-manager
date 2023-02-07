@@ -26,7 +26,7 @@ repos:
           - --remove-all-unused-imports
           - --remove-unused-variables
           - --exclude
-          - __init__.py,base.py,app/db/base.py
+          - __init__.py,base.py,src/db/base.py
           - --remove-duplicate-keys
   - repo: https://github.com/pycqa/isort
     rev: 5.10.1

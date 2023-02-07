@@ -9,7 +9,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.sql import expression, func
 
-from app.db.base import Base
+from src.db.base import Base
 
 
 class FileSystemNode(Base):
