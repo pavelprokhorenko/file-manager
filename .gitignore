@@ -134,8 +134,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Service
-settings.yaml
-
 # PyCharm
 .idea/
