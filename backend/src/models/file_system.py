@@ -4,6 +4,7 @@ from typing import Optional
 from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import expression
+
 from src.db.base_class import Base
 from src.models.sqlalchemy.funcs import utcnow
 

@@ -1,8 +1,9 @@
 from fastapi.applications import FastAPI
 from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
-from src.config.settings import BackendSettings, settings
 from uvicorn import run
+
+from src.config.settings import BackendSettings, settings
 
 
 class Service:
