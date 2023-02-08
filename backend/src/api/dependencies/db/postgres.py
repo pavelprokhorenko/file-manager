@@ -1,6 +1,7 @@
 from collections.abc import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from src.db.session import async_postgres
 
 
