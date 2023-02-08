@@ -8,7 +8,7 @@ class AsyncPostgres:
     """
 
     def __init__(self, backend_settings: BackendSettings) -> None:
-        self._postgres_url = (
+        self._url = (
             "postgresql+asyncpg://{username}:{password}@{host}:{port}/{db_name}".format(
                 username=backend_settings.POSTGRES_USERNAME,
                 password=backend_settings.POSTGRES_PASSWORD,
@@ -19,7 +19,7 @@ class AsyncPostgres:
         )
 
         self._async_engine = create_async_engine(
-            url=self._postgres_url,
+            url=self._url,
             echo=backend_settings.IS_POSTGRES_ECHO_LOG,
             pool_pre_ping=True,
         )
@@ -33,7 +33,17 @@ class AsyncPostgres:
 
     @property
     def async_session(self) -> async_sessionmaker[AsyncSession]:
+        """
+        Asynchronous Connection Session.
+        """
         return self._async_session
+
+    @property
+    def url(self) -> str:
+        """
+        Connection URL.
+        """
+        return self._url
 
 
 async_postgres = AsyncPostgres(backend_settings=settings)
