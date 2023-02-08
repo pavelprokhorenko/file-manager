@@ -43,7 +43,6 @@ class Service:
                 port=self._settings.SERVER_PORT,
                 reload=True,
                 use_colors=True,
-                debug=True,
             )
         else:
             run(
