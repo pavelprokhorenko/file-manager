@@ -18,13 +18,13 @@ class AsyncPostgres:
             )
         )
 
-        self._async_engine = create_async_engine(
+        self._engine = create_async_engine(
             url=self._url,
             echo=backend_settings.IS_POSTGRES_ECHO_LOG,
             pool_pre_ping=True,
         )
-        self._async_session = async_sessionmaker(
-            bind=self._async_engine,
+        self._session = async_sessionmaker(
+            bind=self._engine,
             class_=AsyncSession,
             autoflush=False,
             autocommit=False,
@@ -32,11 +32,11 @@ class AsyncPostgres:
         )
 
     @property
-    def async_session(self) -> async_sessionmaker[AsyncSession]:
+    def session(self) -> async_sessionmaker[AsyncSession]:
         """
         Asynchronous Connection Session.
         """
-        return self._async_session
+        return self._session
 
     @property
     def url(self) -> str:
