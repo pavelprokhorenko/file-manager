@@ -1,15 +1,15 @@
-"""add file_system_node table
+"""file_system_node table
 
-Revision ID: 697a1ea269b4
+Revision ID: 853a4f7527af
 Revises:
-Create Date: 2022-09-20 15:34:35.032185+00:00
+Create Date: 2023-02-08 12:23:15.919429+00:00
 
 """
 import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = "697a1ea269b4"
+revision = "853a4f7527af"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,13 +27,13 @@ def upgrade():
         sa.Column(
             "created_at",
             sa.DateTime(timezone=True),
-            server_default=sa.text("utcnow()"),
+            server_default=sa.text("TIMEZONE('utc', CURRENT_TIMESTAMP)"),
             nullable=False,
         ),
         sa.Column(
             "updated_at",
             sa.DateTime(timezone=True),
-            server_default=sa.text("utcnow()"),
+            server_default=sa.text("TIMEZONE('utc', CURRENT_TIMESTAMP)"),
             nullable=False,
         ),
         sa.Column(

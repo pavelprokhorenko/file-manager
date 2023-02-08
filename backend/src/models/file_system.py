@@ -7,9 +7,9 @@ from sqlalchemy import (
     String,
     UniqueConstraint,
 )
-from sqlalchemy.sql import expression, func
-
+from sqlalchemy.sql import expression
 from src.db.base import Base
+from src.models.sqlalchemy.funcs import utcnow
 
 
 class FileSystemNode(Base):
@@ -27,13 +27,10 @@ class FileSystemNode(Base):
     name = Column(String, nullable=False)
     is_hidden = Column(Boolean, server_default=expression.true(), nullable=False)
     created_at = Column(
-        DateTime(timezone=True), server_default=func.utcnow(), nullable=False
+        DateTime(timezone=True), server_default=utcnow(), nullable=False
     )
     updated_at = Column(
-        DateTime(timezone=True),
-        server_default=func.utcnow(),
-        server_onupdate=func.utcnow(),
-        nullable=False,
+        DateTime(timezone=True), server_default=utcnow(), nullable=False
     )
     is_folder = Column(Boolean, server_default=expression.false(), nullable=False)
 
