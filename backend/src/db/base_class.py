@@ -1,12 +1,11 @@
 import re
-from typing import Any
 
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import DeclarativeBase, Mapped
 
 
 class Base(DeclarativeBase):
-    id: Mapped[Any]
+    id: Mapped
     __name__: str
 
     @declared_attr
