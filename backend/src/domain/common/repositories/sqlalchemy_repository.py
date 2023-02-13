@@ -43,10 +43,6 @@ class AsyncSQLAlchemyRepository(AsyncDBRepositoryInterface):
 
         return rows
 
-    async def create(self, dto: CreateDTO) -> Row:
-        rows_list = await self.bulk_create(dtos=[dto])
-        return rows_list[0]
-
     async def bulk_create(self, dtos: list[CreateDTO]) -> list[Row]:
         async with self._session() as session:
             new_rows_data = [dto.dict(exclude_unset=True) for dto in dtos]
@@ -57,17 +53,6 @@ class AsyncSQLAlchemyRepository(AsyncDBRepositoryInterface):
             await session.commit()
 
         return rows
-
-    async def update(self, row_id: Any, dto: UpdateDTO) -> Row:
-        rows_list = await self.bulk_update(row_ids=[row_id], dto=dto)
-
-        if not rows_list:
-            raise RowNotFound(
-                f'Row with id "{row_id}" not found in table'
-                f' "{self._model.__tablename__}"'
-            )
-
-        return rows_list[0]
 
     async def bulk_update(self, row_ids: Any, dto: UpdateDTO) -> list[Row]:
         async with self._session() as session:
@@ -83,9 +68,6 @@ class AsyncSQLAlchemyRepository(AsyncDBRepositoryInterface):
             await session.commit()
 
         return rows
-
-    async def delete(self, row_id: Any) -> None:
-        await self.bulk_delete(row_ids=[row_id])
 
     async def bulk_delete(self, row_ids: list[Any]) -> None:
         async with self._session() as session:

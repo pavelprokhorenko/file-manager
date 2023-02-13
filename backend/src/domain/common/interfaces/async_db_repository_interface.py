@@ -25,33 +25,15 @@ class AsyncDBRepositoryInterface(metaclass=ABCMeta):
         """
 
     @abstractmethod
-    async def create(self, dto: BaseDTO) -> Row:
-        """
-        Create new row.
-        """
-
-    @abstractmethod
     async def bulk_create(self, dtos: list[BaseDTO]) -> list[Row]:
         """
         Create new rows.
         """
 
     @abstractmethod
-    async def update(self, row_id: Any, dto: BaseDTO) -> Row:
-        """
-        Update existing row with new data.
-        """
-
-    @abstractmethod
     async def bulk_update(self, row_ids: Any, dto: BaseDTO) -> list[Row]:
         """
         Update multiple rows with new data.
-        """
-
-    @abstractmethod
-    async def delete(self, row_id: Any) -> None:
-        """
-        Delete single row.
         """
 
     @abstractmethod
