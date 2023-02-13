@@ -6,7 +6,7 @@ from src.domain.common import BaseDTO, Entity
 
 class AsyncDBRepositoryInterface(metaclass=ABCMeta):
     """
-    Interface for CRUD database operations. Approach for SQL and NoSQL databases.
+    Interface for CRUD database operations. Suited for SQL and NoSQL databases.
     Using async IO queries.
     """
 
