@@ -4,9 +4,10 @@ from typing import Any
 from src.domain.common import BaseDTO, Entity
 
 
-class DBRepositoryInterface(metaclass=ABCMeta):
+class AsyncDBRepositoryInterface(metaclass=ABCMeta):
     """
     Interface for CRUD database operations. Approach for SQL and NoSQL databases.
+    Using async IO queries.
     """
 
     @abstractmethod
