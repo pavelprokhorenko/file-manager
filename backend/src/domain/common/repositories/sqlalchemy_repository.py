@@ -1,14 +1,12 @@
-from typing import Any, TypeVar
+from typing import Any
 
 from sqlalchemy import Row, delete, insert, select, update
 
-from src.db.base_class import Base
 from src.db.session import async_postgres
 from src.domain.common import BaseDTO
 from src.domain.common.exceptions import RowNotFound
 from src.domain.common.interfaces import AsyncDBRepositoryInterface
-
-Model = TypeVar("Model", bound=Base)
+from src.domain.common.typevars import Model
 
 
 class AsyncSQLAlchemyRepository(AsyncDBRepositoryInterface):
