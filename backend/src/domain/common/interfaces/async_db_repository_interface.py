@@ -1,7 +1,9 @@
 from abc import ABCMeta, abstractmethod
 from typing import Any
 
-from src.domain.common import BaseDTO, Entity
+from sqlalchemy import Row
+
+from src.domain.common import BaseDTO
 
 
 class AsyncDBRepositoryInterface(metaclass=ABCMeta):
@@ -11,37 +13,37 @@ class AsyncDBRepositoryInterface(metaclass=ABCMeta):
     """
 
     @abstractmethod
-    async def receive(self, *, row_id: Any) -> Entity:
+    async def receive(self, *, row_id: Any) -> Row:
         """
         Receive single row.
         """
 
     @abstractmethod
-    async def bulk_receive(self) -> list[Entity]:
+    async def bulk_receive(self) -> list[Row]:
         """
         Receive multiple rows.
         """
 
     @abstractmethod
-    async def create(self, dto: BaseDTO) -> Entity:
+    async def create(self, dto: BaseDTO) -> Row:
         """
         Create new row.
         """
 
     @abstractmethod
-    async def bulk_create(self, dtos: list[BaseDTO]) -> list[Entity]:
+    async def bulk_create(self, dtos: list[BaseDTO]) -> list[Row]:
         """
         Create new rows.
         """
 
     @abstractmethod
-    async def update(self, row_id: Any, dto: BaseDTO) -> Entity:
+    async def update(self, row_id: Any, dto: BaseDTO) -> Row:
         """
         Update existing row with new data.
         """
 
     @abstractmethod
-    async def bulk_update(self, row_ids: Any, dto: BaseDTO) -> list[Entity]:
+    async def bulk_update(self, row_ids: Any, dto: BaseDTO) -> list[Row]:
         """
         Update multiple rows with new data.
         """
