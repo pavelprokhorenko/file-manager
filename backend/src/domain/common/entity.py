@@ -19,3 +19,6 @@ class Entity(BaseModel):
             return self.id
 
         raise AttributeError('Entity has no attribute "id"')
+
+    class Config:
+        orm_mode = True
