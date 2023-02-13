@@ -3,10 +3,9 @@ from typing import Any
 from sqlalchemy import Row, delete, insert, select, update
 
 from src.db.session import async_postgres
-from src.domain.common import BaseDTO
 from src.domain.common.exceptions import RowNotFound
 from src.domain.common.interfaces import AsyncDBRepositoryInterface
-from src.domain.common.typevars import Model
+from src.domain.common.typevars import CreateDTO, Model, UpdateDTO
 
 
 class AsyncSQLAlchemyRepository(AsyncDBRepositoryInterface):
@@ -44,11 +43,11 @@ class AsyncSQLAlchemyRepository(AsyncDBRepositoryInterface):
 
         return rows
 
-    async def create(self, dto: BaseDTO) -> Row:
+    async def create(self, dto: CreateDTO) -> Row:
         rows_list = await self.bulk_create(dtos=[dto])
         return rows_list[0]
 
-    async def bulk_create(self, dtos: list[BaseDTO]) -> list[Row]:
+    async def bulk_create(self, dtos: list[CreateDTO]) -> list[Row]:
         async with self._session() as session:
             new_rows_data = [dto.dict(exclude_unset=True) for dto in dtos]
             query = insert(self._model).values(new_rows_data).returning(self._model)
@@ -59,7 +58,7 @@ class AsyncSQLAlchemyRepository(AsyncDBRepositoryInterface):
 
         return rows
 
-    async def update(self, row_id: Any, dto: BaseDTO) -> Row:
+    async def update(self, row_id: Any, dto: UpdateDTO) -> Row:
         rows_list = await self.bulk_update(row_ids=[row_id], dto=dto)
 
         if not rows_list:
@@ -70,7 +69,7 @@ class AsyncSQLAlchemyRepository(AsyncDBRepositoryInterface):
 
         return rows_list[0]
 
-    async def bulk_update(self, row_ids: Any, dto: BaseDTO) -> list[Row]:
+    async def bulk_update(self, row_ids: Any, dto: UpdateDTO) -> list[Row]:
         async with self._session() as session:
             query = (
                 update(self._model)
