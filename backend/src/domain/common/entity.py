@@ -18,7 +18,7 @@ class Entity(BaseModel):
         if hasattr(self, "id") and self.id is not None:
             return self.id
 
-        raise AttributeError('Entity has no attribute "id"')
+        raise AttributeError(f'Entity {self.__repr_name__()} has no attribute "id"')
 
     class Config:
         orm_mode = True
