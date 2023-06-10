@@ -3,12 +3,12 @@ from sqlalchemy.sql import expression
 from sqlalchemy.types import DateTime
 
 
-class utcnow(expression.FunctionElement):  # noqa
+class utcnow(expression.FunctionElement):
     """
     Implementation of current datetime in UTC timezone for different database dialects.
     """
 
-    type = DateTime()
+    type = DateTime()  # noqa: VNE003
     inherit_cache = True
 
 

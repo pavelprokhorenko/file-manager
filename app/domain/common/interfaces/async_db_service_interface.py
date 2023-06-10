@@ -2,8 +2,9 @@ from abc import ABCMeta, abstractmethod
 from typing import Any
 
 from app.domain.common import BaseDTO, Entity
-
-from .async_db_repository_interface import AsyncDBRepositoryInterface
+from app.domain.common.interfaces.async_db_repository_interface import (
+    AsyncDBRepositoryInterface,
+)
 
 
 class AsyncDBServiceInterface(metaclass=ABCMeta):

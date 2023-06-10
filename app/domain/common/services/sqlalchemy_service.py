@@ -23,13 +23,11 @@ class AsyncSQLAlchemyService(AsyncDBServiceInterface, Generic[Entity, CreateDTO,
 
     async def receive(self, *, row_id: Any) -> Entity:
         row = await self._repository.receive(row_id=row_id)
-        entity = self._entity.from_orm(row)
-        return entity
+        return self._entity.from_orm(row)
 
     async def bulk_receive(self) -> list[Entity]:
         rows = await self._repository.bulk_receive()
-        entities = [self._entity.from_orm(row) for row in rows]
-        return entities
+        return [self._entity.from_orm(row) for row in rows]
 
     async def create(self, dto: CreateDTO) -> Entity:
         entities_array = await self.bulk_create(dtos=[dto])
@@ -37,8 +35,7 @@ class AsyncSQLAlchemyService(AsyncDBServiceInterface, Generic[Entity, CreateDTO,
 
     async def bulk_create(self, dtos: list[CreateDTO]) -> list[Entity]:
         rows = await self._repository.bulk_create(dtos=dtos)
-        entities = [self._entity.from_orm(row) for row in rows]
-        return entities
+        return [self._entity.from_orm(row) for row in rows]
 
     async def update(self, row_id: Any, dto: UpdateDTO) -> Entity:
         entities_array = await self.bulk_update(row_ids=[row_id], dto=dto)
@@ -50,8 +47,7 @@ class AsyncSQLAlchemyService(AsyncDBServiceInterface, Generic[Entity, CreateDTO,
 
     async def bulk_update(self, row_ids: Any, dto: UpdateDTO) -> list[Entity]:
         rows = await self._repository.bulk_update(row_ids=row_ids, dto=dto)
-        entities = [self._entity.from_orm(row) for row in rows]
-        return entities
+        return [self._entity.from_orm(row) for row in rows]
 
     async def delete(self, row_id: Any) -> None:
         await self.bulk_delete(row_ids=[row_id])

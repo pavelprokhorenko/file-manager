@@ -34,7 +34,7 @@ class FileSystemNode(Base):
         UniqueConstraint("name", "is_folder", "parent_folder_id"),  # unique name of objects in the same folder
     )
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)  # noqa: VNE003
     name: Mapped[str] = mapped_column(String, nullable=False)
     is_hidden: Mapped[bool] = mapped_column(Boolean, server_default=expression.true(), nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=utcnow(), nullable=False)

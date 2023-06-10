@@ -1,13 +1,10 @@
 import re
 
 from sqlalchemy.ext.declarative import declared_attr
-from sqlalchemy.orm import DeclarativeBase, Mapped
+from sqlalchemy.orm import DeclarativeBase
 
 
 class Base(DeclarativeBase):
-    id: Mapped
-    __name__: str
-
     @declared_attr
     def __tablename__(cls) -> str:
         """

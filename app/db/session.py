@@ -9,14 +9,7 @@ class AsyncPostgres:
     """
 
     def __init__(self, backend_settings: BackendSettings) -> None:
-        self._url = "postgresql+asyncpg://{username}:{password}@{host}:{port}/{db_name}".format(
-            username=backend_settings.POSTGRES_USERNAME,
-            password=backend_settings.POSTGRES_PASSWORD,
-            host=backend_settings.POSTGRES_HOST,
-            port=backend_settings.POSTGRES_PORT,
-            db_name=backend_settings.POSTGRES_NAME,
-        )
-
+        self._url = backend_settings.POSTGRES_URL
         self._engine = create_async_engine(
             url=self._url,
             echo=backend_settings.IS_POSTGRES_ECHO_LOG,
