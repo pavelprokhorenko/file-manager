@@ -34,9 +34,7 @@ class BackendSettings(BaseSettings):
     POSTGRES_PASSWORD: str = config("POSTGRES_PASSWORD", cast=str)
 
     IS_POSTGRES_ECHO_LOG: bool = config("IS_POSTGRES_ECHO_LOG", cast=bool)
-    IS_POSTGRES_SESSION_EXPIRE_ON_COMMIT: bool = config(
-        "IS_POSTGRES_SESSION_EXPIRE_ON_COMMIT", cast=bool
-    )
+    IS_POSTGRES_SESSION_EXPIRE_ON_COMMIT: bool = config("IS_POSTGRES_SESSION_EXPIRE_ON_COMMIT", cast=bool)
 
     class Config(BaseConfig):
         env_file = f"{ROOT_DIR}/.env"

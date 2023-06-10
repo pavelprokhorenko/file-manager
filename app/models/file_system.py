@@ -31,22 +31,14 @@ class FileSystemNode(Base):
     """
 
     __table_args__ = (
-        UniqueConstraint(
-            "name", "is_folder", "parent_folder_id"
-        ),  # unique name of objects in the same folder
+        UniqueConstraint("name", "is_folder", "parent_folder_id"),  # unique name of objects in the same folder
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
-    is_hidden: Mapped[bool] = mapped_column(
-        Boolean, server_default=expression.true(), nullable=False
-    )
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=utcnow(), nullable=False
-    )
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=utcnow(), nullable=False
-    )
+    is_hidden: Mapped[bool] = mapped_column(Boolean, server_default=expression.true(), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=utcnow(), nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=utcnow(), nullable=False)
     is_folder: Mapped[bool] = mapped_column(
         Boolean,
         server_default=expression.false(),

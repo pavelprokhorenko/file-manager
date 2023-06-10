@@ -26,10 +26,7 @@ class AsyncSQLAlchemyRepository(AsyncDBRepositoryInterface):
             await session.commit()
 
         if not row:
-            raise RowNotFound(
-                f'Row with id "{row_id}" not found in table'
-                f' "{self._model.__tablename__}"'
-            )
+            raise RowNotFound(f'Row with id "{row_id}" not found in table "{self._model.__tablename__}"')
 
         return row
 

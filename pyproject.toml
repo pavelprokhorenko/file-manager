@@ -1,9 +1,8 @@
-[project]
+[tool.poetry]
+version = "0.1.0"
 name = "AWS file manager"
 description = "Microservice to implement a file system manager based on AWS with real-world quality."
-authors = [
-    {name = "Pavel Prokhorenko", email="rohorenkopavel74@gmail.com"},
-]
+authors = ["Pavel <prohorenkopavel74@gmail.com>"]
 classifiers = [
     "Intended Audience :: Information Technology",
     "Intended Audience :: System Administrators",
@@ -21,27 +20,37 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
 
-dynamic = ["dependencies", "version"]
-license = {file = "LICENSE.txt"}
+license = "LICENSE.txt"
 readme = "README.md"
-requires-python = ">=3.10"
 
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
+[tool.poetry.dependencies]
+python = ">=3.11"
+alembic = "^1.11.1"
+asyncpg = "^0.27.0"
+fastapi = "^0.96.0"
+pydantic = "^1.10.9"
+python-decouple = "^3.8"
+python-dotenv = "^1.0.0"
+python-multipart = "^0.0.6"
+sqlalchemy = "^2.0.15"
+uvicorn = "^0.22.0"
 
-[project.urls]
-homepage = "https://github.com/pavelprokhorenko/file-manager"
-documentation = "https://github.com/pavelprokhorenko/file-manager"
-repository = "https://github.com/pavelprokhorenko/file-manager"
-
-[tool.black]
-line-length = 88
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.isort]
 profile = "black"
-known_first_party = ["src"]
-line_length = 88
+multi_line_output = 3
+skip = ["migrations"]
+
+[tool.black]
+exclude = '''
+/(
+  | migrations
+)/
+'''
+line_length = 120

@@ -21,9 +21,7 @@ def upgrade():
         "file_system_node",
         sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
         sa.Column("name", sa.String(), nullable=False),
-        sa.Column(
-            "is_hidden", sa.Boolean(), server_default=sa.text("true"), nullable=False
-        ),
+        sa.Column("is_hidden", sa.Boolean(), server_default=sa.text("true"), nullable=False),
         sa.Column(
             "created_at",
             sa.DateTime(timezone=True),
@@ -36,9 +34,7 @@ def upgrade():
             server_default=sa.text("TIMEZONE('utc', CURRENT_TIMESTAMP)"),
             nullable=False,
         ),
-        sa.Column(
-            "is_folder", sa.Boolean(), server_default=sa.text("false"), nullable=False
-        ),
+        sa.Column("is_folder", sa.Boolean(), server_default=sa.text("false"), nullable=False),
         sa.Column(
             "parent_folder_id",
             sa.Integer(),

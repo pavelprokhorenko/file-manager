@@ -6,9 +6,7 @@ from app.domain.common.repositories import AsyncSQLAlchemyRepository
 from app.domain.common.typevars import CreateDTO, Entity, Model, UpdateDTO
 
 
-class AsyncSQLAlchemyService(
-    AsyncDBServiceInterface, Generic[Entity, CreateDTO, UpdateDTO]
-):
+class AsyncSQLAlchemyService(AsyncDBServiceInterface, Generic[Entity, CreateDTO, UpdateDTO]):
     """
     Asynchronous SQLAlchemy service implementation.
     """
@@ -46,9 +44,7 @@ class AsyncSQLAlchemyService(
         entities_array = await self.bulk_update(row_ids=[row_id], dto=dto)
 
         if not entities_array:
-            raise SQLAlchemyServiceException(
-                f'{self.__name__} cannot find object with id "{row_id}"'
-            )
+            raise SQLAlchemyServiceException(f'{self.__name__} cannot find object with id "{row_id}"')
 
         return entities_array[0]
 
