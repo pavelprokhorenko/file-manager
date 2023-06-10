@@ -3,7 +3,7 @@ from typing import Any
 
 from sqlalchemy import Row
 
-from src.domain.common import BaseDTO
+from app.domain.common import BaseDTO
 
 
 class AsyncDBRepositoryInterface(metaclass=ABCMeta):

@@ -1,9 +1,9 @@
 from typing import Any, Generic
 
-from src.domain.common.exceptions import SQLAlchemyServiceException
-from src.domain.common.interfaces import AsyncDBServiceInterface
-from src.domain.common.repositories import AsyncSQLAlchemyRepository
-from src.domain.common.typevars import CreateDTO, Entity, Model, UpdateDTO
+from app.domain.common.exceptions import SQLAlchemyServiceException
+from app.domain.common.interfaces import AsyncDBServiceInterface
+from app.domain.common.repositories import AsyncSQLAlchemyRepository
+from app.domain.common.typevars import CreateDTO, Entity, Model, UpdateDTO
 
 
 class AsyncSQLAlchemyService(
@@ -61,4 +61,4 @@ class AsyncSQLAlchemyService(
         await self.bulk_delete(row_ids=[row_id])
 
     async def bulk_delete(self, row_ids: list[Any]) -> None:
-        await self.bulk_delete(row_ids=row_ids)
+        await self._repository.bulk_delete(row_ids=row_ids)

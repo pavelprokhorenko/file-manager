@@ -1,12 +1,11 @@
 from datetime import datetime
-from typing import Optional
 
 from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import expression
 
-from src.db.base_class import Base
-from src.models.sqlalchemy.funcs import utcnow
+from app.db.base_class import Base
+from app.models.sqlalchemy.funcs import utcnow
 
 
 class FileSystemNode(Base):
@@ -55,7 +54,7 @@ class FileSystemNode(Base):
         comment="Flag that shows that object is folder",
     )
 
-    parent_folder_id: Mapped[Optional[int]] = mapped_column(
+    parent_folder_id: Mapped[int | None] = mapped_column(
         Integer,
         ForeignKey("file_system_node.id", ondelete="CASCADE", onupdate="CASCADE"),
         comment='When "parent_folder_id" IS NULL, then this object is root folder',

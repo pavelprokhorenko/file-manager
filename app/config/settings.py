@@ -3,7 +3,7 @@ from pathlib import Path
 from decouple import config
 from pydantic import BaseConfig, BaseSettings
 
-ROOT_DIR: Path = Path(__file__).parent.parent.parent.parent.resolve()
+ROOT_DIR: Path = Path(__file__).parent.parent.parent.resolve()
 
 
 class BackendSettings(BaseSettings):

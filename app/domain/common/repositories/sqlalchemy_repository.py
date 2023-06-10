@@ -2,10 +2,10 @@ from typing import Any
 
 from sqlalchemy import Row, delete, insert, select, update
 
-from src.db.session import async_postgres
-from src.domain.common.exceptions import RowNotFound
-from src.domain.common.interfaces import AsyncDBRepositoryInterface
-from src.domain.common.typevars import CreateDTO, Model, UpdateDTO
+from app.db.session import async_postgres
+from app.domain.common.exceptions import RowNotFound
+from app.domain.common.interfaces import AsyncDBRepositoryInterface
+from app.domain.common.typevars import CreateDTO, Model, UpdateDTO
 
 
 class AsyncSQLAlchemyRepository(AsyncDBRepositoryInterface):

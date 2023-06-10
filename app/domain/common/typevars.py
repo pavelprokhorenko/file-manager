@@ -1,8 +1,8 @@
 from typing import TypeVar
 
-from src.db.base_class import Base
-from src.domain.common.base_dto import BaseDTO
-from src.domain.common.entity import Entity as BaseEntity
+from app.db.base_class import Base
+from app.domain.common.base_dto import BaseDTO
+from app.domain.common.entity import Entity as BaseEntity
 
 Entity = TypeVar("Entity", bound=BaseEntity)
 

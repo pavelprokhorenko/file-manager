@@ -2,7 +2,7 @@ from collections.abc import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.db.session import async_postgres
+from app.db.session import async_postgres
 
 
 async def get_postgres_session() -> AsyncGenerator[AsyncSession, None]:

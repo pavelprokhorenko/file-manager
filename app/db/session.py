@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-from src.config.settings import BackendSettings, settings
+from app.config.settings import BackendSettings, settings
 
 
 class AsyncPostgres:

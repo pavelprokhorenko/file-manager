@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from typing import Any
 
-from src.domain.common import BaseDTO, Entity
+from app.domain.common import BaseDTO, Entity
 
 from .async_db_repository_interface import AsyncDBRepositoryInterface
 

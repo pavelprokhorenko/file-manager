@@ -1,4 +1,4 @@
-from src.service import service
+from app.service import service
 
 app = service.get_app()
 
