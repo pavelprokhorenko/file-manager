@@ -15,7 +15,7 @@ repos:
   - repo: local
     hooks:
       - id: pyupgrade
-        name: Upgrade syntax for newer versions
+        name: Upgrade syntax for newer versions with pyupgrade
         entry: poetry run pyupgrade
         language: system
         pass_filenames: true
@@ -29,24 +29,20 @@ repos:
         name: Sort import with isort
         entry: poetry run isort
         language: system
-        pass_filenames: false
+        pass_filenames: true
         types:
           - python
-        args:
-          - app
 
       - id: black
-        name: Format with Black
+        name: Format with black
         entry: poetry run black
         language: system
-        pass_filenames: false
+        pass_filenames: true
         types:
           - python
-        args:
-          - app
 
       - id: flake8
-        name: Check with Flake8
+        name: Check with flake8
         entry: poetry run flake8
         language: system
         pass_filenames: false
@@ -54,3 +50,13 @@ repos:
           - python
         args:
           - app
+
+      - id: mypy
+        name: Check types with mypy
+        entry: poetry run mypy
+        language: system
+        types_or:
+          - python
+          - pyi
+        require_serial: true
+        pass_filenames: true
