@@ -3,8 +3,8 @@ from typing import Any, Generic
 
 from sqlalchemy import delete, insert, select, update
 
+from app.core.typevars import CreateDTO, Model, UpdateDTO
 from app.db.session import async_postgres
-from app.domain.common.typevars import CreateDTO, Model, UpdateDTO
 from app.infrastructure.common.repositories.exceptions import RowNotFound
 
 
