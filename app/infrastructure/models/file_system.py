@@ -4,8 +4,8 @@ from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, UniqueCon
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import expression
 
-from app.db.base_class import Base
-from app.models.sqlalchemy.funcs import utcnow
+from app.infrastructure.db.base_class import Base
+from app.infrastructure.utils.sqlalchemy.funcs import utcnow
 
 
 class FileSystemNode(Base):
