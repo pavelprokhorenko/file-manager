@@ -1,4 +1,4 @@
-from app.domain.common.repositories.sqlalchemy_repository import (
+from app.infrastructure.common.repositories.sqlalchemy_repository import (
     AsyncSQLAlchemyRepository,
 )
 

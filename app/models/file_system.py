@@ -30,6 +30,8 @@ class FileSystemNode(Base):
     │        └── ...
     """
 
+    __tablename__ = "file_system_node"
+
     __table_args__ = (
         UniqueConstraint("name", "is_folder", "parent_folder_id"),  # unique name of objects in the same folder
     )

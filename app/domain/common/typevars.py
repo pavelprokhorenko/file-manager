@@ -9,4 +9,4 @@ Entity = TypeVar("Entity", bound=BaseEntity)
 Model = TypeVar("Model", bound=Base)
 
 CreateDTO = TypeVar("CreateDTO", bound=BaseDTO)
-UpdateDTO = TypeVar("UpdateDTO", bound=BaseDTO | None)
+UpdateDTO = TypeVar("UpdateDTO", bound=BaseDTO)

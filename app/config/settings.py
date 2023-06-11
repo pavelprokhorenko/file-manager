@@ -2,7 +2,7 @@ from collections.abc import MutableMapping
 from pathlib import Path
 from typing import Any
 
-from decouple import config
+from decouple import Csv, config
 from pydantic import BaseConfig, BaseSettings, PostgresDsn, root_validator
 
 ROOT_DIR: Path = Path(__file__).parent.parent.parent.resolve()
@@ -24,9 +24,9 @@ class BackendSettings(BaseSettings):
     SERVER_WORKERS: int = config("BACKEND_SERVER_WORKERS", cast=int)
     API_GRAPHQL_PREFIX: str = "/graphql"
 
-    ALLOWED_ORIGINS: list[str]
-    ALLOWED_METHODS: list[str] = ["*"]
-    ALLOWED_HEADERS: list[str] = ["*"]
+    ALLOWED_ORIGINS: list[str] = config("ALLOWED_ORIGINS", cast=Csv())
+    ALLOWED_METHODS: list[str] = config("ALLOWED_METHODS", cast=Csv())
+    ALLOWED_HEADERS: list[str] = config("ALLOWED_HEADERS", cast=Csv())
 
     # Postgres
     POSTGRES_HOST: str = config("POSTGRES_HOST", cast=str)
