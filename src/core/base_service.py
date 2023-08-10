@@ -1,23 +1,29 @@
+import uuid
 from collections.abc import Sequence
-from typing import Any, Generic
+from typing import Generic, TypeVar
 
 from sqlalchemy import delete, insert, select, update
 
-from app.core.typevars import CreateDTO, Model, UpdateDTO
-from app.infrastructure.common.repositories.exceptions import RowNotFound
-from app.infrastructure.db.session import async_postgres
+from src.core.base_dto import BaseDTO
+from src.core.exceptions import RowNotFound
+from src.db.base_class import Base
+from src.db.session import async_postgres
+
+Model = TypeVar("Model", bound=Base)
+CreateDTO = TypeVar("CreateDTO", bound=BaseDTO)
+UpdateDTO = TypeVar("UpdateDTO", bound=BaseDTO)
 
 
-class AsyncSQLAlchemyRepository(Generic[CreateDTO, UpdateDTO]):
+class BaseService(Generic[Model, CreateDTO, UpdateDTO]):
     """
-    Asynchronous SQLAlchemy repository implementation.
+    Asynchronous SQLAlchemy service implementation.
     """
 
     def __init__(self, model: type[Model]) -> None:
         self._model = model
         self._session = async_postgres.session
 
-    async def receive(self, *, row_id: Any) -> Model:
+    async def receive(self, *, row_id: uuid.UUID) -> Model:
         async with self._session() as session:
             query = select(self._model).where(self._model.id == row_id)
             scalar_result = await session.scalars(query)
@@ -26,7 +32,9 @@ class AsyncSQLAlchemyRepository(Generic[CreateDTO, UpdateDTO]):
             await session.commit()
 
         if not row:
-            raise RowNotFound(f'Row with id "{row_id}" not found in table "{self._model.__tablename__}"')
+            raise RowNotFound(
+                f'Row with id "{row_id}" not found in table "{self._model.__tablename__}"',
+            )
 
         return row
 
@@ -51,7 +59,7 @@ class AsyncSQLAlchemyRepository(Generic[CreateDTO, UpdateDTO]):
 
         return rows
 
-    async def bulk_update(self, row_ids: Any, dto: UpdateDTO) -> Sequence[Model]:
+    async def bulk_update(self, row_ids: list[uuid.UUID], dto: UpdateDTO) -> Sequence[Model]:
         async with self._session() as session:
             query = (
                 update(self._model)
@@ -66,7 +74,7 @@ class AsyncSQLAlchemyRepository(Generic[CreateDTO, UpdateDTO]):
 
         return rows
 
-    async def bulk_delete(self, row_ids: list[int]) -> None:
+    async def bulk_delete(self, row_ids: list[uuid.UUID]) -> None:
         async with self._session() as session:
             query = delete(self._model).where(self._model.id.in_(row_ids))
 

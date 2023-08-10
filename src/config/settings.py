@@ -10,19 +10,18 @@ ROOT_DIR: Path = Path(__file__).parent.parent.parent.resolve()
 
 class BackendSettings(BaseSettings):
     """
-    Base settings for all backend of service.
+    Base settings for all backend.
     """
 
     # Base
-    TITLE: str = "AWS File Manager"
-    VERSION: str = "0.1.0"
-    DEBUG: bool = False
+    TITLE: str = config("TITLE", cast=str)
+    VERSION: str = config("VERSION", cast=str)
+    DEBUG: bool = config("DEBUG", cast=bool)
 
     # Server
     SERVER_HOST: str = config("BACKEND_SERVER_HOST", cast=str)
     SERVER_PORT: int = config("BACKEND_SERVER_PORT", cast=int)
     SERVER_WORKERS: int = config("BACKEND_SERVER_WORKERS", cast=int)
-    API_GRAPHQL_PREFIX: str = "/graphql"
 
     ALLOWED_ORIGINS: list[str] = config("ALLOWED_ORIGINS", cast=Csv())
     ALLOWED_METHODS: list[str] = config("ALLOWED_METHODS", cast=Csv())
@@ -34,7 +33,7 @@ class BackendSettings(BaseSettings):
     POSTGRES_DB: str = config("POSTGRES_DB", cast=str)
     POSTGRES_USERNAME: str = config("POSTGRES_USERNAME", cast=str)
     POSTGRES_PASSWORD: str = config("POSTGRES_PASSWORD", cast=str)
-    POSTGRES_URL: str = config("POSTGRES_PASSWORD", cast=str)
+    POSTGRES_URL: str = config("POSTGRES_URL", cast=str)
 
     @root_validator(pre=True)
     def assemble_postgres_db_url(cls, values: MutableMapping[str, Any]) -> MutableMapping[str, Any]:
@@ -51,9 +50,6 @@ class BackendSettings(BaseSettings):
                 )
             )
         return values
-
-    IS_POSTGRES_ECHO_LOG: bool = config("IS_POSTGRES_ECHO_LOG", cast=bool)
-    IS_POSTGRES_SESSION_EXPIRE_ON_COMMIT: bool = config("IS_POSTGRES_SESSION_EXPIRE_ON_COMMIT", cast=bool)
 
     class Config(BaseConfig):
         env_file = f"{ROOT_DIR}/.env"

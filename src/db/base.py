@@ -1,6 +1,6 @@
 # Import all the models, so that Base has them before being
 # imported by Alembic
-from app.infrastructure.db.base_class import Base
-from app.infrastructure.models.file_system import FileSystemNode
+from src.db.base_class import Base
+from src.modules.file_system.models import FileSystemNode
 
 __all__ = ("Base", "FileSystemNode")
