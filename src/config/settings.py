@@ -1,9 +1,7 @@
-from collections.abc import MutableMapping
 from pathlib import Path
-from typing import Any
 
 from decouple import Csv, config
-from pydantic import BaseConfig, BaseSettings, PostgresDsn, root_validator
+from pydantic import BaseConfig, BaseSettings, PostgresDsn
 
 ROOT_DIR: Path = Path(__file__).parent.parent.parent.resolve()
 
@@ -33,23 +31,16 @@ class BackendSettings(BaseSettings):
     POSTGRES_DB: str = config("POSTGRES_DB", cast=str)
     POSTGRES_USERNAME: str = config("POSTGRES_USERNAME", cast=str)
     POSTGRES_PASSWORD: str = config("POSTGRES_PASSWORD", cast=str)
-    POSTGRES_URL: str = config("POSTGRES_URL", cast=str)
-
-    @root_validator(pre=True)
-    def assemble_postgres_db_url(cls, values: MutableMapping[str, Any]) -> MutableMapping[str, Any]:
-        postgres_url = values.get("POSTGRES_URL")
-        if not postgres_url or not isinstance(postgres_url, str):
-            values["POSTGRES_URL"] = str(
-                PostgresDsn.build(
-                    scheme="postgresql+asyncpg",
-                    user=values["POSTGRES_USERNAME"],
-                    password=values["POSTGRES_PASSWORD"],
-                    host=values["POSTGRES_HOST"],
-                    port=str(values["POSTGRES_PORT"]),
-                    path=f'/{values["POSTGRES_DB"]}',
-                )
-            )
-        return values
+    POSTGRES_URL: str = str(
+        PostgresDsn.build(
+            scheme="postgresql+asyncpg",
+            user=POSTGRES_USERNAME,
+            password=POSTGRES_PASSWORD,
+            host=POSTGRES_HOST,
+            port=str(POSTGRES_PORT),
+            path=f"/{POSTGRES_DB}",
+        )
+    )
 
     class Config(BaseConfig):
         env_file = f"{ROOT_DIR}/.env"
