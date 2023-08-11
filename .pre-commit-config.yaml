@@ -49,7 +49,7 @@ repos:
         types:
           - python
         args:
-          - app
+          - src
 
       - id: mypy
         name: Check types with mypy
