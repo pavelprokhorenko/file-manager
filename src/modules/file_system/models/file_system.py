@@ -1,4 +1,6 @@
-from sqlalchemy import Boolean, ForeignKey, Integer, String, UniqueConstraint
+import uuid
+
+from sqlalchemy import Boolean, ForeignKey, String, UniqueConstraint, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import expression
 
@@ -48,8 +50,8 @@ class FileSystemNode(Base):
         comment="Flag that shows that object is folder",
     )
 
-    parent_folder_id: Mapped[int | None] = mapped_column(
-        Integer,
+    parent_folder_id: Mapped[uuid.UUID | None] = mapped_column(
+        Uuid,
         ForeignKey(
             "file_system_node.id",
             ondelete="CASCADE",

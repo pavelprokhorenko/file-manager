@@ -8,9 +8,3 @@ class ServiceError(CoreException):
     """
     Error on service layer.
     """
-
-
-class RowNotFound(ServiceError):
-    """
-    Row does not exists in database.
-    """
