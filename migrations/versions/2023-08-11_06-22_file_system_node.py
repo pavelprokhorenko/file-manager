@@ -1,15 +1,15 @@
 """file system node
 
-Revision ID: b0b4659a218d
+Revision ID: f6721c64a10f
 Revises:
-Create Date: 2023-08-10 18:15:10.130218+00:00
+Create Date: 2023-08-11 06:22:58.911939+00:00
 
 """
 import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = "b0b4659a218d"
+revision = "f6721c64a10f"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -30,7 +30,7 @@ def upgrade():
         ),
         sa.Column(
             "parent_folder_id",
-            sa.Integer(),
+            sa.Uuid(),
             nullable=True,
             comment='When "parent_folder_id" IS NULL, then this object is root folder',
         ),

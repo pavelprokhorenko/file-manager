@@ -13,3 +13,4 @@ async def get_postgres_session() -> AsyncGenerator[AsyncSession, None]:
 
     async with async_postgres.session() as session:
         yield session
+        await session.commit()

@@ -27,47 +27,32 @@ class BaseService(Generic[Model, CreateDTO, UpdateDTO]):
         query = select(self._model).where(self._model.id == row_id)
         scalar_result = await self._session.scalars(query)
 
-        row = scalar_result.one()
-        await self._session.commit()
-
-        return row
+        return scalar_result.one()
 
     async def receive_for_update(self, *, row_id: uuid.UUID) -> Model:
         query = select(self._model).where(self._model.id == row_id).with_for_update()
         scalar_result = await self._session.scalars(query)
 
-        row = scalar_result.one()
-        await self._session.commit()
-
-        return row
+        return scalar_result.one()
 
     async def bulk_receive(self) -> Sequence[Model]:
         query = select(self._model)
         scalar_result = await self._session.scalars(query)
 
-        rows = scalar_result.all()
-        await self._session.commit()
-
-        return rows
+        return scalar_result.all()
 
     async def bulk_receive_for_update(self) -> Sequence[Model]:
         query = select(self._model).with_for_update()
         scalar_result = await self._session.scalars(query)
 
-        rows = scalar_result.all()
-        await self._session.commit()
-
-        return rows
+        return scalar_result.all()
 
     async def bulk_create(self, dtos: list[CreateDTO]) -> Sequence[Model]:
         new_rows_data = [dto.dict(exclude_unset=True) for dto in dtos]
         query = insert(self._model).values(new_rows_data).returning(self._model)
         scalar_result = await self._session.scalars(query)
 
-        rows = scalar_result.all()
-        await self._session.commit()
-
-        return rows
+        return scalar_result.all()
 
     async def bulk_update(self, row_ids: list[uuid.UUID], dto: UpdateDTO) -> Sequence[Model]:
         query = (
@@ -78,13 +63,9 @@ class BaseService(Generic[Model, CreateDTO, UpdateDTO]):
         )
         scalar_result = await self._session.scalars(query)
 
-        rows = scalar_result.all()
-        await self._session.commit()
-
-        return rows
+        return scalar_result.all()
 
     async def bulk_delete(self, row_ids: list[uuid.UUID]) -> None:
         query = delete(self._model).where(self._model.id.in_(row_ids))
 
         await self._session.execute(query)
-        await self._session.commit()
