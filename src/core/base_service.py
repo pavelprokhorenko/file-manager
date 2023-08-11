@@ -48,7 +48,7 @@ class BaseService(Generic[Model, CreateDTO, UpdateDTO]):
         return scalar_result.all()
 
     async def bulk_create(self, dtos: list[CreateDTO]) -> Sequence[Model]:
-        new_rows_data = [dto.dict(exclude_unset=True) for dto in dtos]
+        new_rows_data = [dto.model_dump(exclude_unset=True) for dto in dtos]
         query = insert(self._model).values(new_rows_data).returning(self._model)
         scalar_result = await self._session.scalars(query)
 
@@ -57,7 +57,7 @@ class BaseService(Generic[Model, CreateDTO, UpdateDTO]):
     async def bulk_update(self, row_ids: list[uuid.UUID], dto: UpdateDTO) -> Sequence[Model]:
         query = (
             update(self._model)
-            .values(**dto.dict(exclude_unset=True))
+            .values(**dto.model_dump(exclude_unset=True))
             .where(self._model.id.in_(row_ids))
             .returning(self._model)
         )

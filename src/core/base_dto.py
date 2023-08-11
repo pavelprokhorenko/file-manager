@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class BaseDTO(BaseModel):
@@ -6,5 +6,6 @@ class BaseDTO(BaseModel):
     Data Transfer Object for an arbitrary entity.
     """
 
-    class Meta:
-        frozen = True
+    model_config = ConfigDict(
+        frozen=True,
+    )
