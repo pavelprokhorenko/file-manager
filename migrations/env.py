@@ -5,8 +5,8 @@ from alembic import context
 from sqlalchemy import Connection, engine_from_config, pool
 from sqlalchemy.ext.asyncio import AsyncEngine
 
+from src.config import settings
 from src.db.base import Base
-from src.db.session import async_postgres
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -42,7 +42,7 @@ def run_migrations_offline() -> None:
 
     """
     context.configure(
-        url=async_postgres.url,
+        url=settings.POSTGRES_URL,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
@@ -53,37 +53,50 @@ def run_migrations_offline() -> None:
 
 
 def do_run_migrations(connection: Connection) -> None:
-    context.configure(connection=connection, target_metadata=target_metadata)
+    context.configure(
+        connection=connection,
+        target_metadata=target_metadata,
+    )
 
     with context.begin_transaction():
         context.run_migrations()
 
 
-async def run_migrations_online() -> None:
+async def run_async_migrations(engine: AsyncEngine) -> None:
+    async with engine.connect() as connection:
+        await connection.run_sync(do_run_migrations)
+
+    await engine.dispose()
+
+
+def run_migrations_online() -> None:
     """Run migrations in 'online' mode.
     In this scenario we need to create an Engine
     and associate a connection with the context.
     """
-    configuration: dict[str, str] = config.get_section(  # type: ignore[assignment]
-        config.config_ini_section,
-    )
-    configuration["sqlalchemy.url"] = async_postgres.url
-    connectable = AsyncEngine(
-        engine_from_config(
-            configuration,
-            prefix="sqlalchemy.",
-            poolclass=pool.NullPool,
-            future=True,
+
+    connection = context.config.attributes.get("connection", None)
+    if not connection:
+        configuration: dict[str, str] = config.get_section(  # type: ignore[assignment]
+            config.config_ini_section,
         )
-    )
+        configuration["sqlalchemy.url"] = settings.POSTGRES_URL
+        connection = AsyncEngine(
+            engine_from_config(
+                configuration,
+                prefix="sqlalchemy.",
+                poolclass=pool.NullPool,
+                future=True,
+            )
+        )
 
-    async with connectable.connect() as connection:
-        await connection.run_sync(do_run_migrations)
-
-    await connectable.dispose()
+    if isinstance(connection, AsyncEngine):
+        asyncio.run(run_async_migrations(connection))
+    else:
+        do_run_migrations(connection)
 
 
 if context.is_offline_mode():
     run_migrations_offline()
 else:
-    asyncio.run(run_migrations_online())
+    run_migrations_online()
