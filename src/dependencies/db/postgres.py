@@ -2,7 +2,7 @@ from collections.abc import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.db.session import async_postgres
+from src.db.session import AsyncPostgres
 
 
 async def get_postgres_session() -> AsyncGenerator[AsyncSession, None]:
@@ -11,6 +11,6 @@ async def get_postgres_session() -> AsyncGenerator[AsyncSession, None]:
     After closing HTTP session disconnect from database.
     """
 
-    async with async_postgres.session() as session:
+    async with AsyncPostgres() as session:
         yield session
         await session.commit()

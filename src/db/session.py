@@ -1,6 +1,8 @@
+from typing import Any
+
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-from src.config.settings import settings
+from src.config import settings
 
 
 class AsyncPostgres:
@@ -9,35 +11,24 @@ class AsyncPostgres:
     """
 
     def __init__(self) -> None:
-        self._url = settings.POSTGRES_URL
-
         self._engine = create_async_engine(
-            url=self._url,
+            url=settings.POSTGRES_URL,
             pool_pre_ping=True,
         )
 
-        self._session = async_sessionmaker(
+        self._sessionmaker = async_sessionmaker(
             bind=self._engine,
             class_=AsyncSession,
             autoflush=False,
             autocommit=False,
         )
+        self._session = self._sessionmaker()
 
-    @property
-    def session(self) -> async_sessionmaker[AsyncSession]:
+    async def __aenter__(self) -> AsyncSession:
         """
         Asynchronous Connection Session.
         """
+        return await self._session.__aenter__()
 
-        return self._session
-
-    @property
-    def url(self) -> str:
-        """
-        Connection URL.
-        """
-
-        return self._url
-
-
-async_postgres = AsyncPostgres()
+    async def __aexit__(self, *args: Any, **kwargs: Any) -> None:
+        await self._session.__aexit__(*args, **kwargs)
