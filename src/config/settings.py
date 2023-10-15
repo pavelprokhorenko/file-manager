@@ -3,8 +3,6 @@ from pathlib import Path
 from decouple import Csv, config
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-ROOT_DIR: Path = Path(__file__).parent.parent.parent.resolve()
-
 
 class BackendSettings(BaseSettings):
     """
@@ -12,6 +10,8 @@ class BackendSettings(BaseSettings):
     """
 
     # Base
+    ROOT_DIR: Path = Path(__file__).parent.parent.parent.resolve()
+
     TITLE: str = config("TITLE", cast=str)
     VERSION: str = config("VERSION", cast=str)
     DEBUG: bool = config("DEBUG", cast=bool)
@@ -37,6 +37,13 @@ class BackendSettings(BaseSettings):
         host=POSTGRES_HOST,
         port=POSTGRES_PORT,
         db=POSTGRES_DB,
+    )
+    POSTGRES_TEST_URL: str = "postgresql+asyncpg://{user}:{password}@{host}:{port}/{db}".format(  # noqa: FS002
+        user=POSTGRES_USERNAME,
+        password=POSTGRES_PASSWORD,
+        host=POSTGRES_HOST,
+        port=POSTGRES_PORT,
+        db=f"test_{POSTGRES_DB}",
     )
 
     model_config = SettingsConfigDict(
