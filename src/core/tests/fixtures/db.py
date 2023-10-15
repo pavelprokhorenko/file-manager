@@ -50,3 +50,23 @@ async def connection() -> AsyncGenerator[AsyncConnection, None]:
 
     async with engine.connect() as conn:
         yield conn
+
+
+@pytest.fixture(autouse=True)
+@pytest.mark.usefixtures(  # noqa: PT025
+    # used for application order
+    "_migrate_database",
+)
+async def _pg_transaction(
+    connection: AsyncConnection,
+) -> AsyncGenerator[None, None]:
+    """
+    Wrap each test in a 100% rollback transaction.
+    """
+
+    transaction = connection
+    await transaction.begin()
+
+    yield
+
+    await transaction.rollback()
