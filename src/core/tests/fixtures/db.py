@@ -4,40 +4,22 @@ import alembic
 import alembic.command
 import alembic.config
 import pytest
+import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncConnection, create_async_engine
 
 from src.config import settings
-
-
-@pytest.fixture(scope="session")
-def alembic_config() -> alembic.config.Config:
-    """
-    Alembic config generated from context.
-    """
-
-    return alembic.config.Config(
-        settings.ROOT_DIR / "alembic.ini",
-    )
+from src.core.tests.utils import upgrade_database
 
 
 @pytest.fixture(
     scope="session",
     autouse=True,
 )
-def _migrate_database(
-    alembic_config: alembic.config.Config,
-) -> None:
-    """
-    Migrate database to latest revision.
-    """
-
-    alembic.command.upgrade(
-        config=alembic_config,
-        revision="head",
-    )
+def _mock_postgres_url() -> None:
+    settings.POSTGRES_URL = settings.POSTGRES_TEST_URL
 
 
-@pytest.fixture(scope="session")
+@pytest_asyncio.fixture(scope="session")
 async def connection() -> AsyncGenerator[AsyncConnection, None]:
     """
     Set up database connection.
@@ -52,7 +34,38 @@ async def connection() -> AsyncGenerator[AsyncConnection, None]:
         yield conn
 
 
-@pytest.fixture(autouse=True)
+@pytest_asyncio.fixture(scope="session")
+async def alembic_config() -> alembic.config.Config:
+    """
+    Alembic config generated from context.
+    """
+    config = alembic.config.Config(
+        settings.ROOT_DIR / "alembic.ini",
+    )
+
+    config.set_main_option(
+        "sqlalchemy.url",
+        settings.POSTGRES_TEST_URL,
+    )
+    return config
+
+
+@pytest_asyncio.fixture(
+    scope="session",
+    autouse=True,
+)
+async def _migrate_database(
+    connection: AsyncConnection,
+    alembic_config: alembic.config.Config,
+) -> None:
+    """
+    Migrate database to latest revision.
+    """
+
+    await connection.run_sync(upgrade_database, alembic_config)
+
+
+@pytest_asyncio.fixture(autouse=True)
 @pytest.mark.usefixtures(  # noqa: PT025
     # used for application order
     "_migrate_database",
