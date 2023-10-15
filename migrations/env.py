@@ -2,7 +2,7 @@ import asyncio
 from logging.config import fileConfig
 
 from alembic import context
-from sqlalchemy import engine_from_config, pool
+from sqlalchemy import Connection, engine_from_config, pool
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from src.db.base import Base
@@ -29,7 +29,7 @@ target_metadata = Base.metadata
 # ... etc.
 
 
-def run_migrations_offline():
+def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
 
     This configures the context with just a URL
@@ -52,19 +52,21 @@ def run_migrations_offline():
         context.run_migrations()
 
 
-def do_run_migrations(connection):
+def do_run_migrations(connection: Connection) -> None:
     context.configure(connection=connection, target_metadata=target_metadata)
 
     with context.begin_transaction():
         context.run_migrations()
 
 
-async def run_migrations_online():
+async def run_migrations_online() -> None:
     """Run migrations in 'online' mode.
     In this scenario we need to create an Engine
     and associate a connection with the context.
     """
-    configuration = config.get_section(config.config_ini_section)
+    configuration: dict[str, str] = config.get_section(  # type: ignore[assignment]
+        config.config_ini_section,
+    )
     configuration["sqlalchemy.url"] = async_postgres.url
     connectable = AsyncEngine(
         engine_from_config(

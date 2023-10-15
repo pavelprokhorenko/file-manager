@@ -71,30 +71,39 @@ build-backend = "poetry.core.masonry.api"
 [tool.isort]
 profile = "black"
 multi_line_output = 3
-skip = ["migrations"]
+skip = [
+    '^migrations/versions/.+\.py$',
+]
 
 [tool.black]
 exclude = '''
 /(
-  | migrations
+  ^migrations/versions/.+\.py$
 )/
 '''
 line_length = 120
 
 [tool.flake8]
 exclude = [
-    "migrations",
+    '^migrations/versions/.+\.py$',
 ]
 max_line_length = 120
 inline-quotes = "\""
 
 [tool.mypy]
 python_version = 3.11
-plugins = ["sqlalchemy.ext.mypy.plugin"]
-exclude = ["migrations"]
+plugins = [
+    "sqlalchemy.ext.mypy.plugin",
+]
+exclude = [
+    '^migrations/versions/.+\.py$',
+]
 ignore_missing_imports = true
+disallow_untyped_defs = true
+disallow_untyped_calls = false
+strict = true
+strict_equality = true
 warn_unused_configs = true
 warn_unused_ignores = true
 warn_redundant_casts = true
-strict_equality = true
 warn_unreachable = true
