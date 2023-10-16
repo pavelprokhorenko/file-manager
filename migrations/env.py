@@ -90,7 +90,6 @@ def run_migrations_online() -> None:
             )
         )
 
-    if isinstance(connection, AsyncEngine):
         asyncio.run(run_async_migrations(connection))
     else:
         do_run_migrations(connection)
