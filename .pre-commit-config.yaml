@@ -27,17 +27,17 @@ repos:
 
       - id: isort
         name: Sort import with isort
-        entry: poetry run isort
+        entry: poetry run isort .
         language: system
-        pass_filenames: true
+        pass_filenames: false
         types:
           - python
 
       - id: black
         name: Format with black
-        entry: poetry run black
+        entry: poetry run black .
         language: system
-        pass_filenames: true
+        pass_filenames: false
         types:
           - python
 
@@ -53,10 +53,10 @@ repos:
 
       - id: mypy
         name: Check types with mypy
-        entry: poetry run mypy
+        entry: poetry run mypy .
         language: system
         types_or:
           - python
           - pyi
         require_serial: true
-        pass_filenames: true
+        pass_filenames: false

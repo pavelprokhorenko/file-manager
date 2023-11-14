@@ -1,9 +1,11 @@
+from typing import Any
+
 from sqlalchemy.ext.compiler import compiles
 from sqlalchemy.sql import expression
 from sqlalchemy.types import DateTime
 
 
-class utcnow(expression.FunctionElement):
+class utcnow(expression.FunctionElement):  # type: ignore[type-arg]
     """
     Implementation of current datetime in UTC timezone for different database dialects.
     """
@@ -12,8 +14,8 @@ class utcnow(expression.FunctionElement):
     inherit_cache = True
 
 
-@compiles(utcnow, "postgresql")
-def postgres_utcnow(*args, **kwargs) -> str:
+@compiles(utcnow, "postgresql")  # type: ignore[misc]
+def postgres_utcnow(*args: Any, **kwargs: Any) -> str:
     """
     PostgreSQL impl of current datetime in UTC timezone.
     """
